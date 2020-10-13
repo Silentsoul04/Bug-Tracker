@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+    
+        {% block content %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Closed Items</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Closed Items</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>.</div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Closed Items
+                                 <a href="#">
+                            
+                                        
+                                    </a> 
+                            </div>
+                            
+                            <div class="card-body">
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTableClosed" width="100%" cellspacing="0">
+                                        
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Project Title</th>
+                                                <th>Bug Title</th>
+                                                <th>Bug Description</th>
+                                                <th>Feature Title</th>
+                                                <th>Feature Description</th>
+                                                <th>Assigned User</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Project Title</th>
+                                                <th>Bug Title</th>
+                                                <th>Bug Description</th>
+                                                <th>Feature Title</th>
+                                                <th>Feature Description</th>
+                                                <th>Assigned User</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {% for p_closed in project_closed %}
+                                            <tr id="{{ p_open.id }}" style="color: green;">
+                                                <td>Project</td>
+                                                <td>{{ p_closed.title }}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{ p_closed.users.email }}</td>
+                                                <td>
+                                                    <a href="{{ url_for('edit_project', id = p_closed.id) }}">
+                                                    <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for b_closed in bugs_closed %}
+                                            <tr id="{{ b_closed.id }}"style="color: green;">
+                                                <td>Bug</td>
+                                                <td>{{ b_closed.projects.title }}</td>
+                                                <td>{{ b_closed.title }}</td>
+                                                <td>{{ b_closed.description }}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{ b_closed.users.email }}</td>
+                                                <td>
+                                                    <a href="{{ url_for('edit_bug', id = b_closed.id) }}">
+                                                    <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            
+                                            {% for f_closed in feature_closed %}
+                                            <tr id="{{ f_open.id }}"style="color: green;">
+                                                <td>Feature</td>
+                                                <td>{{ f_closed.projects.title }}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{ f_closed.title }}</td>
+                                                <td>{{ f_closed.description }}</td>
+                                                <td>{{ f_closed.users.email }}</td>
+                                                <td>
+                                                    <a href="{{ url_for('edit_feature', id = f_closed.id) }}">
+                                                    <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                           
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Bug Tracker 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        
+        {% endblock content %}
+

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+    
+        {% block content %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Bugs</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Bugs</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>.</div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Bugs
+                                 <a href="{{ url_for('add_bugs') }}">
+                                     <button class="btn btn-danger" style="float:right"> Add Bugs</button>
+                                    
+                                    </a> 
+
+                            </div>
+                            
+                            <div class="card-body">
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTableBugs" width="100%" cellspacing="0">
+                                        
+                                        <thead>
+                                            <tr>
+                                                <th>Project Title</th>
+                                                <th>Bug Title</th>
+                                                <th>Bug Description</th>
+                                                <th>Start Date</th>
+                                                <th>Expected Date</th>
+                                                <th>Finish Date</th>
+                                                <th>Assigned</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Project Title</th>
+                                                <th>Bug Title</th>
+                                                <th>Bug Description</th>
+                                                <th>Start Date</th>
+                                                <th>Expected Date</th>
+                                                <th>Finish Date</th>
+                                                <th>Assigned</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {% for bug in bugs %}
+                                            {% if bug.typeProject == 2 and bug.status != 3  %}
+                                            <tr id="{{ bug.id }}" style="color:salmon;">
+                                            {% elif bug.typeProject == 3 and bug.status != 3 %}
+                                            <tr id="{{ bug.id }}" style="color: red;">
+                                            {% elif bug.status == 3 %}
+                                            <tr id="{{ bug.id }}" style="color: green;">
+                                            {% else %}
+                                            <tr id="{{ bug.id }}">
+                                            {% endif %}
+                                                <td>{{ bug.projects.title }}</td>
+                                                <td>{{ bug.title }}</td>
+                                                <td>{{ bug.description }}</td>
+                                                <td>{{ bug.start_date.strftime('%d/%m/%y') }}</td>
+                                                <td>{{ bug.expected_date.strftime('%d/%m/%y') }}</td>
+                                                <td>{{ bug.finish_date.strftime('%d/%m/%y') }}</td>
+                                                <td>{{ bug.users.email }}</td>
+                                                
+                                                {% if bug.status == 1 %}
+                                                <td>Open</td>
+                                                {% elif bug.status == 2 %}
+                                                <td>In development</td>
+                                                {% else %}
+                                                <td>Closed</td>
+
+                                                {% endif %}
+                                                {% if bug.typeProject == 1 %}
+                                                <td>Normal</td>
+                                                {% elif bug.typeProject == 2 %}
+                                                <td>Alert</td>
+                                                {% else %}
+                                                <td>Critic</td>
+                                                {% endif %}
+
+                                                <td>
+                                                    <a href="{{ url_for('edit_bug', id = bug.id) }}">
+                                                    <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    
+                                                
+                                                    <a href="{{ url_for('delete_Bug', id = bug.id) }}">
+                                                    <i class="fa fa-trash"></i>
+                                                    </a>
+                                            
+                                                
+                                                </td>
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Bug Tracker 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        {% endblock content %}
+

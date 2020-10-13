@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+        {% block content %}
+        
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Email Configuration</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Email Configuration</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form method="POST" action="{{ url_for('email_settings') }}">
+                                    {{ form.csrf_token }}
+                                    
+                                    {% if message %}
+                                        <span style="color:red;">{{ message }}</span>
+                                    {% endif %}
+                                    <div class="form-row"> 
+                                        <div class="form-group col-md-6">
+                                            <label class="small mb-1" for="inputLastName">Server Name</label>
+                                            {{ form.server_name(class='form-control py-4', placeholder = 'Enter Server Name') }}
+                                         </div>
+                                     
+                                        <div class="form-group col-md-6">
+                                             <label class="small mb-1" for="inputLastName">Mail Port</label>
+                                             {{ form.mail_port(class='form-control py-4', placeholder = 'Enter Mail Port') }}
+                                        </div>  
+                                     
+                                     </div>
+                              
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label class="small mb-1" for="inputLastName">Email</label>
+                                            {{ form.email(class='form-control py-4', placeholder = 'Enter Email Adress') }}
+                                       </div> 
+                                       <div class="form-group col-md-6">
+                                        <label class="small mb-1" for="inputLastName">Mail Password</label>
+                                            {{ form.mail_password(class='form-control py-4', placeholder = 'Enter Email Password') }}
+                                       </div>   
+                                    </div>
+                                    <div class="form-row"> 
+                                        <div class="form-group col-md-6">
+                                            {{ form.use_tls }} Use TLS   
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            {{ form.use_ssl }} Use SSL   
+                                        </div>
+                                     
+                                     </div>
+                                    <div class="form-group mt-4 mb-0">
+                                        <button class="btn btn-primary btn-block" type="submit">Save Email Settings</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div style="height: 100vh;"></div>
+            
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Bug Tracker 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+{% endblock content %}
+
+
+

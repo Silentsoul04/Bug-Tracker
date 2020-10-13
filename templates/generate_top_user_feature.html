@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+    
+        {% block content %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Feature</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{ url_for('reports') }}">Reports</a></li>
+                            <li class="breadcrumb-item active">Top Users Features Implement</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">Report generated from {{ format_start_date }} to {{ format_finish_date }} <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>.</div>
+                        </div>
+                        <div class="card mb-4">
+                            
+                            <div class="card-body">
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTableTopFeature" width="100%" cellspacing="0">
+                                        
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Role</th>
+                                                <th>Total Closed Feature</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Role</th>
+                                                <th>Total Closed Feature</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                          <tr>
+                                                
+                                                {% for all_user in all_users %}
+                                                <td>{{ all_user.Users.email }}</td>
+                                                {% if all_user.Users.rol == 1 %}
+                                                <td>Admin</td>
+                                                {% elif all_user.Users.rol == 2 %}
+                                                <td>Super User</td>
+                                                {% else %}
+                                                <td>Normal User</td>
+                                                {% endif %}
+                                                <td>{{ all_user.total_feature_closed }}</td>
+                                          </tr>
+                                                {% endfor %}
+
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Bug Tracker 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        {% endblock content %}
+

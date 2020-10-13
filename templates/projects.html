@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+    
+        {% block content %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Projects</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Projects</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>.</div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Projects
+                                 <a href="{{ url_for('add_project') }}">
+                                     <button class="btn btn-primary" style="float:right"> Add Project</button>
+                                    </a> 
+                            </div>
+                            
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTableProject" width="100%" cellspacing="0">
+                                        
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Start Date</th>
+                                                <th>Expected Date</th>
+                                                <th>Finish Date</th>
+                                                <th>Assigned</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Start Date</th>
+                                                <th>Expected Date</th>
+                                                <th>Finish Date</th>
+                                                <th>Assigned</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {% for project in projects %}
+                                            {% if project.typeProject == 2 and project.status != 3  %}
+                                            <tr id="{{ project.id }}" style="color:salmon;">
+                                            {% elif project.typeProject == 3 and project.status != 3 %}
+                                            <tr id="{{ project.id }}" style="color: red;">
+                                            {% elif project.status == 3 %}
+                                            <tr id="{{ project.id }}" style="color: green;">
+                                            {% else %}
+                                            <tr id="{{ project.id }}">
+                                            {% endif %}
+                                                <td>{{ project.title }}</td>
+                                                <td>{{ project.description }}</td>
+                                                <td>{{ project.start_date.strftime('%d/%m/%y') }}</td>
+                                                <td>{{ project.expected_date.strftime('%d/%m/%y') }}</td>
+                                                <td>{{ project.finish_date.strftime('%d/%m/%y') }}</td>
+                                                <td>{{ project.users.email }}</td>
+                                                
+                                                {% if project.status == 1 %}
+                                                <td>Open</td>
+                                                {% elif project.status == 2 %}
+                                                <td>In development</td>
+                                                {% else %}
+                                                <td>Closed</td>
+
+                                                {% endif %}
+                                                {% if project.typeProject == 1 %}
+                                                <td>Normal</td>
+                                                {% elif project.typeProject == 2 %}
+                                                <td>Alert</td>
+                                                {% else %}
+                                                <td>Critic</td>
+                                                {% endif %}
+
+                                                <td>
+                                                    <a href="{{ url_for('edit_project', id = project.id) }}">
+                                                    <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    
+                                                
+                                                <a href="{{ url_for('delete_Project', id=project.id ) }}">
+                                                    
+                                                    <i class="fa fa-trash"></i>
+                                                   
+                                                </a>
+                                            
+                                                
+                                                </td>
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Bug Tracker 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        {% endblock content %}
+

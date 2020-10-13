@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+
+
+    
+        {% block content %}
+        
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Add Project</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{ url_for('projects') }}">Project</a></li>
+                            <li class="breadcrumb-item active">Add</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                {% if message %}
+                                <span style="color:red;">{{ message }}</span>
+                                {% endif %} 
+                                
+                                <form method="POST" action="{{ url_for('add_project') }}" >
+                                    {{ form.csrf_token }}
+                                    <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Project Title</label>
+                                    
+                                        {{ form.project_title(class="form-control py-4", placeholder ="Enter project Title") }}
+                                    </div>
+                                    <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Project Description</label>
+                                        {{ form.project_description(class="form-control py-4", placeholder ="Enter project description") }}
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputLastName">Start Date</label>
+                                                <div class="input-group input-group-lg" id="datetimepicker1">
+                                                  <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                  </div>
+                                                   
+                                                   {{ form.start_date(class="form-control py-4", placeholder ="Enter start date" ,id="datepicker", readonly=True) }}
+
+                                                  </div>
+                                              </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputLastName">Expected Date</label>
+                                                <div class="input-group input-group-lg">
+                                                  <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                  </div>
+                                                    
+                                                    {{ form.expected_date(class="form-control py-4", placeholder ="Enter expected date" ,id="datepicker1", readonly=True) }}
+                                                </div>
+                                              </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputLastName">Finish Date</label>
+                                                <div class="input-group input-group-lg" >
+                                                  <div class="input-group-prepend">
+                                                  <span class="input-group-text"><i class="fa fa-calendar" ></i></span>
+                                                  </div>
+                                                    {{ form.finish_date(class="form-control py-4", placeholder ="Enter finish date" ,id="datepicker2", readonly=True) }}
+                                                  </div>
+                                              </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputFirstName">User</label>
+                                                {{ form.user(class='form-control') }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputLastName">Status</label>  
+                                                {{ form.status(class="form-control") }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputLastName">Priority</label>
+                                                {{ form.priority(class="form-control") }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mt-4 mb-0">
+                                        <button class="btn btn-primary btn-block" type="submit">Add Project</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div style="height: 100vh;"></div>
+            
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Bug Tracker 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script type="application/javascript" src="moment.js"></script>
+        <script src="pikaday.js"></script>
+        <script>
+
+
+var picker = new Pikaday({
+            field: document.getElementById('datepicker1'),
+            format: 'DD/MM/YYYY',
+            toString(date, format) {
+            // you should do formatting based on the passed format,
+            // but we will just return 'D/M/YYYY' for simplicity
+            const day = ("0" + (date.getDate())).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2)
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+    },
+    parse(dateString, format) {
+        // dateString is the result of `toString` method
+        const parts = dateString.split('/');
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+    }
+});
+var picker = new Pikaday({
+            field: document.getElementById('datepicker2'),
+            format: 'DD/MM/YYYY',
+            toString(date, format) {
+            // you should do formatting based on the passed format,
+            // but we will just return 'D/M/YYYY' for simplicity
+            const day = ("0" + (date.getDate())).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+    },
+    parse(dateString, format) {
+        // dateString is the result of `toString` method
+        const parts = dateString.split('/');
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const year = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+    }
+});
+        </script>
+
+{% endblock content %}
+
+
+

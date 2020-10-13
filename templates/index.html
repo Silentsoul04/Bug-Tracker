@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+    
+        {% block content %}
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Active Users</div>
+                                    <div class="card-body">{{ total_users }}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ url_for('users') }}">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">Opened</div>
+                                    <div class="card-body">{{ total_opened }}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ url_for('opened') }}">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Closed</div>
+                                    <div class="card-body">{{ total_closed }}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ url_for('closed') }}">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">Expired</div>
+                                    <div class="card-body">{{ total_expired }}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ url_for('expired') }}">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area mr-1"></i>Bugs/day (This month until {{ current_day }} {{ currentMonth }})
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Projects/month(Last 6 months)</div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Top Users</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTableTotal" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Role</th>
+                                                <th>Closed Projects</th>
+                                                <th>Closed Bugs</th>
+                                                <th>Closed Feature</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Role</th>
+                                                <th>Closed Projects</th>
+                                                <th>Closed Bugs</th>
+                                                <th>Closed Feature</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </tfoot>
+                                        
+                                        <tbody>
+                                            {% for all_user in all_users %}
+                                            <tr>
+                                                <td>{{ all_user.Users.email }}</td>
+                                                {% if all_user.Users.rol == 1 %}
+                                                <td>Admin</td>
+                                                {% elif all_user.Users.rol == 2 %}
+                                                <td>Super User</td>
+                                                {% else %}
+                                                <td>Normal User</td>
+                                                {% endif %}
+                                                <td>{{ all_user.total_projects_closed }}</td>
+                                                <td>{{ all_user.total_bugs_closed }}</td>
+                                                <td>{{ all_user.total_feature_closed }}</td>
+                                                <td>{{ all_user.average }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            var labels = {{ label_month_list|safe }}
+            var bugs_max = {{ total_bugs_max|safe }}
+            var total_bugs_data = {{ list_total_data|safe }}
+            
+        </script>
+    
+        <script src="{{ url_for('static',filename = 'assets/reports/bugs_day.js') }}"></script>
+
+        <script type="text/javascript">
+            var labels_month = {{label_month_name|safe}}
+            var bugs_max = {{ total_bugs_max|safe }}
+            var total_projects_6_m = {{ list_project_data|safe }}
+        </script>
+        <script src="{{ url_for('static', filename ='assets/reports/projects_month.js')}}"></script>
+        
+        {% endblock content %}
