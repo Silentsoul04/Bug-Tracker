@@ -22,9 +22,9 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True 
 app.config['MAIL_USE_SSL'] = False
 
-app.config['MAIL_USERNAME'] = 'costinvlad2@gmail.com'   
-app.config['MAIL_PASSWORD'] = 'sudbucuresti'
-app.config['MAIL_DEFAULT_SENDER'] = ('Bug Tracker','costinvlad2@gmail.com') # pentru a trimite mai multe emailuri de pe mai multe adrese de email se trece in tupple ('adresa@gmail.com')
+app.config['MAIL_USERNAME'] = ''# here is the mail username   
+app.config['MAIL_PASSWORD'] = ''# here is the mail password
+app.config['MAIL_DEFAULT_SENDER'] = ('Bug Tracker','') # pentru a trimite mai multe emailuri de pe mai multe adrese de email se trece in tupple ('adresa@gmail.com')
 app.config['MAIL_MAX_EMAILS'] = None
 
 #app.config.from_json('config.json')
